@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+// TODO validate
+
+type Data = {
+  nickname?: string;
+  email?: string;
+  password?: string;
+};
+
+const LogInForm = ({
+                     initialData,
+                     onSubmit
+                   }: {
+  initialData: Data;
+  onSubmit(values: Data): void;
+}) => {
+  const [logInData, setLogInData] = React.useState<Data>(initialData);
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    onSubmit(logInData);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <form onSubmit={handleSubmit}>
+        <div>
+            <label>
+                Enter your nickname
+                <input
+                    value={logInData.nickname}
+                    onChange={(e) =>
+                        setLogInData({ ...logInData, nickname: e.target.value })
+                    }
+
+                />
+            </label>
+        </div>
+        <div>
+            <label>
+                Enter your email
+                <input
+                    value={logInData.email}
+                    onChange={(e) =>
+                        setLogInData({ ...logInData, email: e.target.value })
+                    }
+                />
+            </label>
+        </div>
+        <div>
+            <label>
+                Enter your password
+                <input
+                    value={logInData.password}
+                    onChange={(e) =>
+                        setLogInData({ ...logInData, password: e.target.value })
+                    }
+                />
+            </label>
+        </div>
+        <button>Submit</button>
+      </form>
+  );
+};
+
+export default function App() {
+  return (
+      <div className="App">
+        <LogInForm
+            initialData={{}}
+            onSubmit={(data: Data) => console.log(data)}
+        />
+      </div>
   );
 }
-
-export default App;
